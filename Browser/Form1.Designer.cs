@@ -29,6 +29,7 @@ namespace Browser
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(BrowserMain));
             this.buttonBack = new System.Windows.Forms.Button();
             this.buttonForward = new System.Windows.Forms.Button();
             this.AddressBar = new System.Windows.Forms.TextBox();
@@ -38,6 +39,7 @@ namespace Browser
             // 
             // buttonBack
             // 
+            this.buttonBack.AutoSize = true;
             this.buttonBack.Location = new System.Drawing.Point(12, 12);
             this.buttonBack.Name = "buttonBack";
             this.buttonBack.Size = new System.Drawing.Size(75, 27);
@@ -48,7 +50,8 @@ namespace Browser
             // 
             // buttonForward
             // 
-            this.buttonForward.Location = new System.Drawing.Point(94, 11);
+            this.buttonForward.AutoSize = true;
+            this.buttonForward.Location = new System.Drawing.Point(95, 12);
             this.buttonForward.Name = "buttonForward";
             this.buttonForward.Size = new System.Drawing.Size(75, 28);
             this.buttonForward.TabIndex = 1;
@@ -60,16 +63,18 @@ namespace Browser
             // 
             this.AddressBar.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.AddressBar.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.AddressBar.Location = new System.Drawing.Point(176, 12);
             this.AddressBar.Name = "AddressBar";
-            this.AddressBar.Size = new System.Drawing.Size(494, 22);
+            this.AddressBar.Size = new System.Drawing.Size(494, 30);
             this.AddressBar.TabIndex = 2;
             this.AddressBar.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.AddressBar_KeyPress);
             // 
             // buttonGo
             // 
             this.buttonGo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonGo.Location = new System.Drawing.Point(677, 11);
+            this.buttonGo.AutoSize = true;
+            this.buttonGo.Location = new System.Drawing.Point(676, 12);
             this.buttonGo.Name = "buttonGo";
             this.buttonGo.Size = new System.Drawing.Size(94, 28);
             this.buttonGo.TabIndex = 3;
@@ -83,9 +88,9 @@ namespace Browser
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panelBrowser.AutoSize = true;
-            this.panelBrowser.Location = new System.Drawing.Point(12, 41);
+            this.panelBrowser.Location = new System.Drawing.Point(12, 48);
             this.panelBrowser.Name = "panelBrowser";
-            this.panelBrowser.Size = new System.Drawing.Size(776, 397);
+            this.panelBrowser.Size = new System.Drawing.Size(776, 390);
             this.panelBrowser.TabIndex = 4;
             // 
             // BrowserMain
@@ -98,6 +103,7 @@ namespace Browser
             this.Controls.Add(this.AddressBar);
             this.Controls.Add(this.buttonForward);
             this.Controls.Add(this.buttonBack);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "BrowserMain";
             this.Text = "Browser";
             this.ResumeLayout(false);

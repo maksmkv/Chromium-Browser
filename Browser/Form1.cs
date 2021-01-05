@@ -54,7 +54,15 @@ namespace Browser
 
         private void buttonGo_Click(object sender, EventArgs e)
         {
-            c.Load(AddressBar.Text);
+            if (AddressBar.Text.Contains("https://www") || AddressBar.Text.Contains("http://www"))
+            {
+                c.Load(AddressBar.Text);
+            }
+            else
+            {
+                c.Load("https://"+AddressBar.Text);
+            }
+            
         }
 
         private void AddressBar_KeyPress(object sender, KeyPressEventArgs e)
