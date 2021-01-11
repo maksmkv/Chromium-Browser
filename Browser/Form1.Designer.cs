@@ -30,118 +30,179 @@ namespace Browser
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(BrowserMain));
-            this.buttonBack = new System.Windows.Forms.Button();
-            this.buttonForward = new System.Windows.Forms.Button();
+            this.toolbarBackground = new System.Windows.Forms.Panel();
             this.AddressBar = new System.Windows.Forms.TextBox();
-            this.buttonGo = new System.Windows.Forms.Button();
-            this.panelBrowser = new System.Windows.Forms.Panel();
-            this.buttonRefresh = new System.Windows.Forms.Button();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.buttonBookmark = new System.Windows.Forms.PictureBox();
+            this.urlBoxRight = new System.Windows.Forms.PictureBox();
+            this.urlBoxLeft = new System.Windows.Forms.PictureBox();
+            this.buttonForward = new System.Windows.Forms.PictureBox();
+            this.buttonBack = new System.Windows.Forms.PictureBox();
+            this.buttonSettings = new System.Windows.Forms.PictureBox();
+            this.toolbarBackground.SuspendLayout();
+            this.panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.buttonBookmark)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.urlBoxRight)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.urlBoxLeft)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.buttonForward)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.buttonBack)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.buttonSettings)).BeginInit();
             this.SuspendLayout();
             // 
-            // buttonBack
+            // toolbarBackground
             // 
-            this.buttonBack.AutoSize = true;
-            this.buttonBack.Location = new System.Drawing.Point(4, 11);
-            this.buttonBack.Margin = new System.Windows.Forms.Padding(2);
-            this.buttonBack.Name = "buttonBack";
-            this.buttonBack.Size = new System.Drawing.Size(56, 23);
-            this.buttonBack.TabIndex = 0;
-            this.buttonBack.Text = "<";
-            this.buttonBack.UseVisualStyleBackColor = true;
-            this.buttonBack.Click += new System.EventHandler(this.buttonBack_Click);
-            // 
-            // buttonForward
-            // 
-            this.buttonForward.AutoSize = true;
-            this.buttonForward.Location = new System.Drawing.Point(66, 11);
-            this.buttonForward.Margin = new System.Windows.Forms.Padding(2);
-            this.buttonForward.Name = "buttonForward";
-            this.buttonForward.Size = new System.Drawing.Size(56, 23);
-            this.buttonForward.TabIndex = 1;
-            this.buttonForward.Text = ">";
-            this.buttonForward.UseVisualStyleBackColor = true;
-            this.buttonForward.Click += new System.EventHandler(this.buttonForward_Click);
+            this.toolbarBackground.Controls.Add(this.buttonSettings);
+            this.toolbarBackground.Controls.Add(this.buttonBookmark);
+            this.toolbarBackground.Controls.Add(this.panel1);
+            this.toolbarBackground.Controls.Add(this.buttonForward);
+            this.toolbarBackground.Controls.Add(this.buttonBack);
+            this.toolbarBackground.Dock = System.Windows.Forms.DockStyle.Top;
+            this.toolbarBackground.Location = new System.Drawing.Point(0, 0);
+            this.toolbarBackground.Name = "toolbarBackground";
+            this.toolbarBackground.Size = new System.Drawing.Size(326, 38);
+            this.toolbarBackground.TabIndex = 3;
             // 
             // AddressBar
             // 
             this.AddressBar.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.AddressBar.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.AddressBar.Location = new System.Drawing.Point(127, 11);
-            this.AddressBar.Margin = new System.Windows.Forms.Padding(2);
+            this.AddressBar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(241)))), ((int)(((byte)(243)))), ((int)(((byte)(244)))));
+            this.AddressBar.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.AddressBar.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.AddressBar.Location = new System.Drawing.Point(17, 5);
+            this.AddressBar.Margin = new System.Windows.Forms.Padding(9);
             this.AddressBar.Name = "AddressBar";
-            this.AddressBar.Size = new System.Drawing.Size(413, 26);
-            this.AddressBar.TabIndex = 2;
-            this.AddressBar.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.AddressBar_KeyPress);
+            this.AddressBar.Size = new System.Drawing.Size(131, 18);
+            this.AddressBar.TabIndex = 5;
+            this.AddressBar.Text = "about:blank";
+            this.AddressBar.WordWrap = false;
+            this.AddressBar.KeyDown += new System.Windows.Forms.KeyEventHandler(this.AddressBar_KeyDown);
             // 
-            // buttonGo
+            // panel1
             // 
-            this.buttonGo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonGo.AutoSize = true;
-            this.buttonGo.Location = new System.Drawing.Point(544, 11);
-            this.buttonGo.Margin = new System.Windows.Forms.Padding(2);
-            this.buttonGo.Name = "buttonGo";
-            this.buttonGo.Size = new System.Drawing.Size(70, 23);
-            this.buttonGo.TabIndex = 3;
-            this.buttonGo.Text = "Go";
-            this.buttonGo.UseVisualStyleBackColor = true;
-            this.buttonGo.Click += new System.EventHandler(this.buttonGo_Click);
-            // 
-            // panelBrowser
-            // 
-            this.panelBrowser.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.panelBrowser.AutoSize = true;
-            this.panelBrowser.Location = new System.Drawing.Point(9, 41);
-            this.panelBrowser.Margin = new System.Windows.Forms.Padding(2);
-            this.panelBrowser.Name = "panelBrowser";
-            this.panelBrowser.Size = new System.Drawing.Size(666, 315);
-            this.panelBrowser.TabIndex = 4;
+            this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(241)))), ((int)(((byte)(243)))), ((int)(((byte)(244)))));
+            this.panel1.Controls.Add(this.AddressBar);
+            this.panel1.Controls.Add(this.urlBoxRight);
+            this.panel1.Controls.Add(this.urlBoxLeft);
+            this.panel1.ForeColor = System.Drawing.Color.Silver;
+            this.panel1.Location = new System.Drawing.Point(72, 6);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(175, 27);
+            this.panel1.TabIndex = 8;
             // 
-            // buttonRefresh
+            // buttonBookmark
             // 
-            this.buttonRefresh.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonRefresh.Location = new System.Drawing.Point(617, 11);
-            this.buttonRefresh.Name = "buttonRefresh";
-            this.buttonRefresh.Size = new System.Drawing.Size(53, 23);
-            this.buttonRefresh.TabIndex = 5;
-            this.buttonRefresh.Text = "Refresh";
-            this.buttonRefresh.UseVisualStyleBackColor = true;
-            this.buttonRefresh.Click += new System.EventHandler(this.buttonRefresh_Click);
+            this.buttonBookmark.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonBookmark.BackColor = System.Drawing.Color.Transparent;
+            this.buttonBookmark.Image = global::Browser.Properties.Resources.BookmarksActive;
+            this.buttonBookmark.Location = new System.Drawing.Point(254, 6);
+            this.buttonBookmark.Margin = new System.Windows.Forms.Padding(4, 4, 3, 3);
+            this.buttonBookmark.Name = "buttonBookmark";
+            this.buttonBookmark.Size = new System.Drawing.Size(28, 28);
+            this.buttonBookmark.TabIndex = 9;
+            this.buttonBookmark.TabStop = false;
+            this.buttonBookmark.MouseEnter += new System.EventHandler(this.buttonBookmark_MouseEnter);
+            this.buttonBookmark.MouseLeave += new System.EventHandler(this.buttonBookmark_MouseLeave);
+            // 
+            // urlBoxRight
+            // 
+            this.urlBoxRight.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.urlBoxRight.Image = global::Browser.Properties.Resources.UrlBoxRight;
+            this.urlBoxRight.Location = new System.Drawing.Point(163, 0);
+            this.urlBoxRight.Name = "urlBoxRight";
+            this.urlBoxRight.Size = new System.Drawing.Size(12, 28);
+            this.urlBoxRight.TabIndex = 7;
+            this.urlBoxRight.TabStop = false;
+            // 
+            // urlBoxLeft
+            // 
+            this.urlBoxLeft.Image = global::Browser.Properties.Resources.UrlBoxLeft;
+            this.urlBoxLeft.Location = new System.Drawing.Point(0, 0);
+            this.urlBoxLeft.Name = "urlBoxLeft";
+            this.urlBoxLeft.Size = new System.Drawing.Size(12, 28);
+            this.urlBoxLeft.TabIndex = 6;
+            this.urlBoxLeft.TabStop = false;
+            // 
+            // buttonForward
+            // 
+            this.buttonForward.BackColor = System.Drawing.Color.Transparent;
+            this.buttonForward.Image = global::Browser.Properties.Resources.ForwardActive;
+            this.buttonForward.Location = new System.Drawing.Point(38, 5);
+            this.buttonForward.Margin = new System.Windows.Forms.Padding(4, 4, 3, 3);
+            this.buttonForward.Name = "buttonForward";
+            this.buttonForward.Size = new System.Drawing.Size(28, 28);
+            this.buttonForward.TabIndex = 3;
+            this.buttonForward.TabStop = false;
+            this.buttonForward.Click += new System.EventHandler(this.buttonForward_Click);
+            this.buttonForward.MouseEnter += new System.EventHandler(this.buttonForward_MouseEnter);
+            this.buttonForward.MouseLeave += new System.EventHandler(this.buttonForward_MouseLeave);
+            // 
+            // buttonBack
+            // 
+            this.buttonBack.BackColor = System.Drawing.Color.Transparent;
+            this.buttonBack.Image = global::Browser.Properties.Resources.BackActive;
+            this.buttonBack.Location = new System.Drawing.Point(6, 5);
+            this.buttonBack.Margin = new System.Windows.Forms.Padding(4, 4, 3, 3);
+            this.buttonBack.Name = "buttonBack";
+            this.buttonBack.Size = new System.Drawing.Size(28, 28);
+            this.buttonBack.TabIndex = 2;
+            this.buttonBack.TabStop = false;
+            this.buttonBack.Click += new System.EventHandler(this.buttonBack_Click);
+            this.buttonBack.MouseEnter += new System.EventHandler(this.buttonBack_MouseEnter);
+            this.buttonBack.MouseLeave += new System.EventHandler(this.buttonBack_MouseLeave);
+            // 
+            // buttonSettings
+            // 
+            this.buttonSettings.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonSettings.BackColor = System.Drawing.Color.Transparent;
+            this.buttonSettings.Image = global::Browser.Properties.Resources.ToolsActive;
+            this.buttonSettings.Location = new System.Drawing.Point(289, 6);
+            this.buttonSettings.Margin = new System.Windows.Forms.Padding(4, 4, 3, 3);
+            this.buttonSettings.Name = "buttonSettings";
+            this.buttonSettings.Size = new System.Drawing.Size(28, 28);
+            this.buttonSettings.TabIndex = 10;
+            this.buttonSettings.TabStop = false;
+            this.buttonSettings.MouseEnter += new System.EventHandler(this.buttonSettings_MouseEnter);
+            this.buttonSettings.MouseLeave += new System.EventHandler(this.buttonSettings_MouseLeave);
             // 
             // BrowserMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(684, 366);
-            this.Controls.Add(this.buttonRefresh);
-            this.Controls.Add(this.panelBrowser);
-            this.Controls.Add(this.buttonGo);
-            this.Controls.Add(this.AddressBar);
-            this.Controls.Add(this.buttonForward);
-            this.Controls.Add(this.buttonBack);
+            this.BackColor = System.Drawing.Color.White;
+            this.ClientSize = new System.Drawing.Size(326, 289);
+            this.Controls.Add(this.toolbarBackground);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "BrowserMain";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Browser";
-            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.BrowserMain_FormClosing);
-            this.Load += new System.EventHandler(this.BrowserMain_Load);
+            this.toolbarBackground.ResumeLayout(false);
+            this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.buttonBookmark)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.urlBoxRight)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.urlBoxLeft)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.buttonForward)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.buttonBack)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.buttonSettings)).EndInit();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
         #endregion
 
-        private System.Windows.Forms.Button buttonBack;
-        private System.Windows.Forms.Button buttonForward;
+        private System.Windows.Forms.Panel toolbarBackground;
+        private System.Windows.Forms.PictureBox urlBoxRight;
+        private System.Windows.Forms.PictureBox urlBoxLeft;
         private System.Windows.Forms.TextBox AddressBar;
-        private System.Windows.Forms.Button buttonGo;
-        private System.Windows.Forms.Panel panelBrowser;
-        private System.Windows.Forms.Button buttonRefresh;
+        private System.Windows.Forms.PictureBox buttonForward;
+        private System.Windows.Forms.PictureBox buttonBack;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.PictureBox buttonBookmark;
+        private System.Windows.Forms.PictureBox buttonSettings;
     }
 }
 

@@ -1,4 +1,6 @@
-﻿using EasyTabs;
+﻿using CefSharp;
+using CefSharp.WinForms;
+using EasyTabs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,9 +11,6 @@ namespace Browser
 {
     static class Program
     {
-        /// <summary>
-        /// The main entry point for the application.
-        /// </summary>
         [STAThread]
         static void Main()
         {
@@ -19,8 +18,8 @@ namespace Browser
             Application.SetCompatibleTextRenderingDefault(false);
             //Application.Run(new BrowserMain());
             AppContainer container = new AppContainer();
-            container.Tabs.Add(new EasyTabs.TitleBarTab(container) {
-                Content=new BrowserMain
+            container.Tabs.Add(new TitleBarTab(container) {
+                Content=new BrowserMain(null)
                 {
                     Text="New Tab"
                 }
