@@ -14,6 +14,7 @@ namespace Browser
 {
     public partial class BrowserMain : Form
     {
+        private ContextMenuHandler mHandler;
         private class NewTabLifespanHandler : ILifeSpanHandler
         {
             private BrowserMain _tab;
@@ -93,7 +94,7 @@ namespace Browser
         public readonly ChromiumWebBrowser WebBrowser;
         private bool faviconLoaded = false;
 
-        protected TitleBarTabs ParentTabs
+        public TitleBarTabs ParentTabs
         {
             get
             {
@@ -106,7 +107,7 @@ namespace Browser
             InitializeComponent();
 
             ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
-            if(address == null || address == "")
+            if (address == null || address == "")
             {
                 WebBrowser = new ChromiumWebBrowser("about:blank")
                 {
@@ -132,11 +133,14 @@ namespace Browser
                     LifeSpanHandler = new NewTabLifespanHandler(this)
                 };
             }
+            mHandler = new ContextMenuHandler(this);
+            WebBrowser.MenuHandler = mHandler;
             Controls.Add(WebBrowser);
             WebBrowser.TitleChanged += WebBrowser_TitleChanged;
             WebBrowser.AddressChanged += WebBrowser_AddressChanged;
             WebBrowser.LoadingStateChanged += webBrowser_DocumentCompleted;
         }
+        
 
         private void WebBrowser_AddressChanged(object sender, AddressChangedEventArgs e)
         {
@@ -275,7 +279,7 @@ namespace Browser
 
         private void BrowserMain_FormClosing(object sender, FormClosingEventArgs e)
         {
-            Cef.Shutdown();
         }
+       
     }
 }

@@ -28,12 +28,12 @@ namespace Browser
                 Content = new BrowserMain(null) { Text = "New Tab" }
             };
         }
-        public TitleBarTab NavigateTab(string address)
-        {
-            return new TitleBarTab(this)
-            {
-                Content = new BrowserMain(address) { Text = "New Tab" }
-            };
-        }
+        //public TitleBarTab NavigateTab(string address)
+        //{
+        //    return new TitleBarTab(this)
+        //    {
+        //        Content = new BrowserMain(address) { Text = "New Tab" }
+        //    };
+        //}
     }
 }
