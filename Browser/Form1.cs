@@ -39,17 +39,23 @@ namespace Browser
 
         private void C_AddressChanged(object sender, AddressChangedEventArgs e)
         {
-            AddressBar.Text = e.Address.ToString();
+            AddressBar.Text = e.Address;
         }
 
         private void buttonBack_Click(object sender, EventArgs e)
         {
-            c.Back();
+            if (c.CanGoBack)
+            {
+                c.Back();
+            }
         }
 
         private void buttonForward_Click(object sender, EventArgs e)
         {
-            c.Forward();
+            if (c.CanGoForward)
+            {
+                c.Forward();
+            }
         }
 
         private void buttonGo_Click(object sender, EventArgs e)
@@ -79,6 +85,11 @@ namespace Browser
         {
             c.Refresh();
            
+        }
+
+        private void BrowserMain_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            Cef.Shutdown();
         }
     }
 }
