@@ -248,9 +248,14 @@ namespace Browser
             if (e.KeyCode == Keys.Enter)
             {
                 string fullUrl = AddressBar.Text;
-
-                if (!Regex.IsMatch(fullUrl, "^[a-zA-Z0-9]+\\://"))
+                if (!fullUrl.Contains(".com"))
+                {
+                    fullUrl = "https://duckduckgo.com/?q=" + fullUrl;
+                }
+                else if (!Regex.IsMatch(fullUrl, "^[a-zA-Z0-9]+\\://"))
+                {
                     fullUrl = "http://" + fullUrl;
+                }
 
                 faviconLoaded = false;
                 WebBrowser.Load(fullUrl);
