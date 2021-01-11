@@ -1,19 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
+﻿using Browser.Properties;
+using CefSharp;
+using CefSharp.WinForms;
+using EasyTabs;
+using System;
 using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Net;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using Browser.Properties;
-using CefSharp;
-using CefSharp.WinForms;
-using EasyTabs;
 
 namespace Browser
 {
@@ -281,7 +276,6 @@ namespace Browser
         private void BrowserMain_FormClosing(object sender, FormClosingEventArgs e)
         {
             Cef.Shutdown();
-            this.Close();
         }
     }
 }
