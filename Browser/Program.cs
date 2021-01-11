@@ -16,7 +16,6 @@ namespace Browser
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            //Application.Run(new BrowserMain());
             AppContainer container = new AppContainer();
             container.Tabs.Add(new TitleBarTab(container) {
                 Content=new BrowserMain(null)

@@ -31,22 +31,23 @@ namespace Browser
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(BrowserMain));
             this.toolbarBackground = new System.Windows.Forms.Panel();
-            this.AddressBar = new System.Windows.Forms.TextBox();
-            this.panel1 = new System.Windows.Forms.Panel();
+            this.buttonSettings = new System.Windows.Forms.PictureBox();
             this.buttonBookmark = new System.Windows.Forms.PictureBox();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.AddressBar = new System.Windows.Forms.TextBox();
             this.urlBoxRight = new System.Windows.Forms.PictureBox();
             this.urlBoxLeft = new System.Windows.Forms.PictureBox();
             this.buttonForward = new System.Windows.Forms.PictureBox();
             this.buttonBack = new System.Windows.Forms.PictureBox();
-            this.buttonSettings = new System.Windows.Forms.PictureBox();
+            this.openInANewTabToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolbarBackground.SuspendLayout();
-            this.panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.buttonSettings)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.buttonBookmark)).BeginInit();
+            this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.urlBoxRight)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.urlBoxLeft)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.buttonForward)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.buttonBack)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.buttonSettings)).BeginInit();
             this.SuspendLayout();
             // 
             // toolbarBackground
@@ -61,6 +62,48 @@ namespace Browser
             this.toolbarBackground.Name = "toolbarBackground";
             this.toolbarBackground.Size = new System.Drawing.Size(326, 38);
             this.toolbarBackground.TabIndex = 3;
+            // 
+            // buttonSettings
+            // 
+            this.buttonSettings.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonSettings.BackColor = System.Drawing.Color.Transparent;
+            this.buttonSettings.Image = global::Browser.Properties.Resources.ToolsActive;
+            this.buttonSettings.Location = new System.Drawing.Point(289, 6);
+            this.buttonSettings.Margin = new System.Windows.Forms.Padding(4, 4, 3, 3);
+            this.buttonSettings.Name = "buttonSettings";
+            this.buttonSettings.Size = new System.Drawing.Size(28, 28);
+            this.buttonSettings.TabIndex = 10;
+            this.buttonSettings.TabStop = false;
+            this.buttonSettings.MouseEnter += new System.EventHandler(this.buttonSettings_MouseEnter);
+            this.buttonSettings.MouseLeave += new System.EventHandler(this.buttonSettings_MouseLeave);
+            // 
+            // buttonBookmark
+            // 
+            this.buttonBookmark.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonBookmark.BackColor = System.Drawing.Color.Transparent;
+            this.buttonBookmark.Image = global::Browser.Properties.Resources.BookmarksActive;
+            this.buttonBookmark.Location = new System.Drawing.Point(254, 6);
+            this.buttonBookmark.Margin = new System.Windows.Forms.Padding(4, 4, 3, 3);
+            this.buttonBookmark.Name = "buttonBookmark";
+            this.buttonBookmark.Size = new System.Drawing.Size(28, 28);
+            this.buttonBookmark.TabIndex = 9;
+            this.buttonBookmark.TabStop = false;
+            this.buttonBookmark.MouseEnter += new System.EventHandler(this.buttonBookmark_MouseEnter);
+            this.buttonBookmark.MouseLeave += new System.EventHandler(this.buttonBookmark_MouseLeave);
+            // 
+            // panel1
+            // 
+            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(241)))), ((int)(((byte)(243)))), ((int)(((byte)(244)))));
+            this.panel1.Controls.Add(this.AddressBar);
+            this.panel1.Controls.Add(this.urlBoxRight);
+            this.panel1.Controls.Add(this.urlBoxLeft);
+            this.panel1.ForeColor = System.Drawing.Color.Silver;
+            this.panel1.Location = new System.Drawing.Point(72, 6);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(175, 27);
+            this.panel1.TabIndex = 8;
             // 
             // AddressBar
             // 
@@ -77,34 +120,6 @@ namespace Browser
             this.AddressBar.Text = "about:blank";
             this.AddressBar.WordWrap = false;
             this.AddressBar.KeyDown += new System.Windows.Forms.KeyEventHandler(this.AddressBar_KeyDown);
-            // 
-            // panel1
-            // 
-            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(241)))), ((int)(((byte)(243)))), ((int)(((byte)(244)))));
-            this.panel1.Controls.Add(this.AddressBar);
-            this.panel1.Controls.Add(this.urlBoxRight);
-            this.panel1.Controls.Add(this.urlBoxLeft);
-            this.panel1.ForeColor = System.Drawing.Color.Silver;
-            this.panel1.Location = new System.Drawing.Point(72, 6);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(175, 27);
-            this.panel1.TabIndex = 8;
-            // 
-            // buttonBookmark
-            // 
-            this.buttonBookmark.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonBookmark.BackColor = System.Drawing.Color.Transparent;
-            this.buttonBookmark.Image = global::Browser.Properties.Resources.BookmarksActive;
-            this.buttonBookmark.Location = new System.Drawing.Point(254, 6);
-            this.buttonBookmark.Margin = new System.Windows.Forms.Padding(4, 4, 3, 3);
-            this.buttonBookmark.Name = "buttonBookmark";
-            this.buttonBookmark.Size = new System.Drawing.Size(28, 28);
-            this.buttonBookmark.TabIndex = 9;
-            this.buttonBookmark.TabStop = false;
-            this.buttonBookmark.MouseEnter += new System.EventHandler(this.buttonBookmark_MouseEnter);
-            this.buttonBookmark.MouseLeave += new System.EventHandler(this.buttonBookmark_MouseLeave);
             // 
             // urlBoxRight
             // 
@@ -153,19 +168,10 @@ namespace Browser
             this.buttonBack.MouseEnter += new System.EventHandler(this.buttonBack_MouseEnter);
             this.buttonBack.MouseLeave += new System.EventHandler(this.buttonBack_MouseLeave);
             // 
-            // buttonSettings
+            // openInANewTabToolStripMenuItem
             // 
-            this.buttonSettings.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonSettings.BackColor = System.Drawing.Color.Transparent;
-            this.buttonSettings.Image = global::Browser.Properties.Resources.ToolsActive;
-            this.buttonSettings.Location = new System.Drawing.Point(289, 6);
-            this.buttonSettings.Margin = new System.Windows.Forms.Padding(4, 4, 3, 3);
-            this.buttonSettings.Name = "buttonSettings";
-            this.buttonSettings.Size = new System.Drawing.Size(28, 28);
-            this.buttonSettings.TabIndex = 10;
-            this.buttonSettings.TabStop = false;
-            this.buttonSettings.MouseEnter += new System.EventHandler(this.buttonSettings_MouseEnter);
-            this.buttonSettings.MouseLeave += new System.EventHandler(this.buttonSettings_MouseLeave);
+            this.openInANewTabToolStripMenuItem.Name = "openInANewTabToolStripMenuItem";
+            this.openInANewTabToolStripMenuItem.Size = new System.Drawing.Size(32, 19);
             // 
             // BrowserMain
             // 
@@ -180,14 +186,14 @@ namespace Browser
             this.Text = "Browser";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.BrowserMain_FormClosing);
             this.toolbarBackground.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.buttonSettings)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.buttonBookmark)).EndInit();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.buttonBookmark)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.urlBoxRight)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.urlBoxLeft)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.buttonForward)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.buttonBack)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.buttonSettings)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -203,6 +209,7 @@ namespace Browser
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.PictureBox buttonBookmark;
         private System.Windows.Forms.PictureBox buttonSettings;
+        private System.Windows.Forms.ToolStripMenuItem openInANewTabToolStripMenuItem;
     }
 }
 
