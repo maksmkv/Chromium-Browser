@@ -17,15 +17,16 @@ namespace Browser
         public BrowserMain()
         {
             InitializeComponent();
-            InitChromium();
         }
         public ChromiumWebBrowser c;
 
         public void InitChromium()
         {
             Cef.EnableHighDPISupport();
-            Cef.Initialize(new CefSettings());
+            //Cef.Initialize(new CefSettings());
             c = new ChromiumWebBrowser("https://www.google.com");
+            c.Dock = DockStyle.Fill;
+
             c.AddressChanged += C_AddressChanged;
             c.TitleChanged += C_TitleChanged;
             panelBrowser.Controls.Add(c);
@@ -64,11 +65,26 @@ namespace Browser
             {
                 c.Load(AddressBar.Text);
             }
-            else
+            else if (!AddressBar.Text.Contains("www"))
             {
-                c.Load("https://"+AddressBar.Text);
+                if (AddressBar.Text.Contains("https://") || AddressBar.Text.Contains("http://"))
+                {
+                    AddressBar.Text = AddressBar.Text.Substring(8);
+                    AddressBar.Text = "https://www." + AddressBar.Text;
+                    c.Load(AddressBar.Text);
+                }
+                else if (!AddressBar.Text.Contains(".com"))
+                {
+                    c.Load("https://duckduckgo.com/?q=" + AddressBar.Text);
+                }
+                else
+                {
+                    c.Load("https://www." + AddressBar.Text);
+                }
             }
-            
+            else {
+                c.Load("https://" + AddressBar.Text);
+            }
         }
 
         private void AddressBar_KeyPress(object sender, KeyPressEventArgs e)
@@ -90,6 +106,11 @@ namespace Browser
         private void BrowserMain_FormClosing(object sender, FormClosingEventArgs e)
         {
             Cef.Shutdown();
+        }
+
+        private void BrowserMain_Load(object sender, EventArgs e)
+        {
+            InitChromium();
         }
     }
 }

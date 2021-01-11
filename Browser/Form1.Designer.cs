@@ -41,7 +41,7 @@ namespace Browser
             // buttonBack
             // 
             this.buttonBack.AutoSize = true;
-            this.buttonBack.Location = new System.Drawing.Point(9, 10);
+            this.buttonBack.Location = new System.Drawing.Point(4, 11);
             this.buttonBack.Margin = new System.Windows.Forms.Padding(2);
             this.buttonBack.Name = "buttonBack";
             this.buttonBack.Size = new System.Drawing.Size(56, 23);
@@ -53,7 +53,7 @@ namespace Browser
             // buttonForward
             // 
             this.buttonForward.AutoSize = true;
-            this.buttonForward.Location = new System.Drawing.Point(71, 10);
+            this.buttonForward.Location = new System.Drawing.Point(66, 11);
             this.buttonForward.Margin = new System.Windows.Forms.Padding(2);
             this.buttonForward.Name = "buttonForward";
             this.buttonForward.Size = new System.Drawing.Size(56, 23);
@@ -67,7 +67,7 @@ namespace Browser
             this.AddressBar.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.AddressBar.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.AddressBar.Location = new System.Drawing.Point(132, 10);
+            this.AddressBar.Location = new System.Drawing.Point(127, 11);
             this.AddressBar.Margin = new System.Windows.Forms.Padding(2);
             this.AddressBar.Name = "AddressBar";
             this.AddressBar.Size = new System.Drawing.Size(413, 26);
@@ -78,7 +78,7 @@ namespace Browser
             // 
             this.buttonGo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.buttonGo.AutoSize = true;
-            this.buttonGo.Location = new System.Drawing.Point(549, 10);
+            this.buttonGo.Location = new System.Drawing.Point(544, 11);
             this.buttonGo.Margin = new System.Windows.Forms.Padding(2);
             this.buttonGo.Name = "buttonGo";
             this.buttonGo.Size = new System.Drawing.Size(70, 23);
@@ -93,16 +93,16 @@ namespace Browser
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panelBrowser.AutoSize = true;
-            this.panelBrowser.Location = new System.Drawing.Point(9, 39);
+            this.panelBrowser.Location = new System.Drawing.Point(9, 41);
             this.panelBrowser.Margin = new System.Windows.Forms.Padding(2);
             this.panelBrowser.Name = "panelBrowser";
-            this.panelBrowser.Size = new System.Drawing.Size(666, 317);
+            this.panelBrowser.Size = new System.Drawing.Size(666, 315);
             this.panelBrowser.TabIndex = 4;
             // 
             // buttonRefresh
             // 
             this.buttonRefresh.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonRefresh.Location = new System.Drawing.Point(622, 10);
+            this.buttonRefresh.Location = new System.Drawing.Point(617, 11);
             this.buttonRefresh.Name = "buttonRefresh";
             this.buttonRefresh.Size = new System.Drawing.Size(53, 23);
             this.buttonRefresh.TabIndex = 5;
@@ -128,6 +128,7 @@ namespace Browser
             this.Text = "Browser";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.BrowserMain_FormClosing);
+            this.Load += new System.EventHandler(this.BrowserMain_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
