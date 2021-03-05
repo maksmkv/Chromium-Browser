@@ -107,14 +107,11 @@ namespace Browser
 				AppContainer app = new AppContainer();
                 var newtab = new TitleBarTab(app) { Content = new BrowserMain(parameters.LinkUrl) { Text = "New Tab" } };
                 app.Tabs.Add(newtab);
-                //app.Tabs.Add(new TitleBarTab(app)
-                //{
-                //    Content = new BrowserMain(parameters.LinkUrl) { Text = "New Tab" }
-                //});
                 app.SelectedTabIndex = app.SelectedTabIndex + 1;
-
-                TitleBarTabsApplicationContext applicationContext = new TitleBarTabsApplicationContext();
-                applicationContext.Start(app);
+				app.RedrawTabs();
+				app.Refresh();
+                //TitleBarTabsApplicationContext applicationContext = new TitleBarTabsApplicationContext();
+                //applicationContext.Start(app);
 
 
                 return true;				
