@@ -196,6 +196,27 @@ namespace Browser
                 faviconLoaded = true;
             }
         }
+        
+        public void CreateNewTab(string url)
+        {
+           var newtab = new TitleBarTab(ParentTabs) { Content = new BrowserMain(url) { Text = "New Tab" } };
+           if (ParentTabs.InvokeRequired) 
+           {
+               ParentTabs.Invoke(new Action(() => {
+                     ParentTabs.Tabs.Add(newtab);
+                     ParentTabs.SelectedTabIndex++; // similar to ParentTabs.SelectedIndex = ParentTabs.SelectedTabIndex + 1; or ParentTabs.SelectedTabIndex += 1;
+                     ParentTabs.RedrawTabs();
+                     PrentTabs.Refresh();
+               });
+           }
+           else 
+           {
+               ParentTabs.Tabs.Add(newtab);
+               ParentTabs.SelectedTabIndex++; // similar to ParentTabs.SelectedIndex = ParentTabs.SelectedTabIndex + 1; or ParentTabs.SelectedTabIndex += 1;
+               ParentTabs.RedrawTabs();
+               PrentTabs.Refresh();
+           }
+        }
 
         private void WebBrowser_TitleChanged(object sender, TitleChangedEventArgs e)
         {
