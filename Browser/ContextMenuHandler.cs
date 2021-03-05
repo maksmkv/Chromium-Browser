@@ -104,14 +104,31 @@ namespace Browser
 			}
 			if (id == OpenLinkInNewTab)
 			{
-				AppContainer app = new AppContainer();
-                var newtab = new TitleBarTab(app) { Content = new BrowserMain(parameters.LinkUrl) { Text = "New Tab" } };
+				if (myForm.InvokeRequired) 
+				{ 
+				    myForm.Invoke(new Action(() => myForm.CreateNewTab(parameters.LinkUrl))); 
+				} else 
+				{ 
+				    myForm.CreateNewTab(parameters.LinkUrl);
+				}
+				/* 
+				Since we moved it to BrowserForm, we no longer need this code.
+				Feel free to delete this giant comment.
+				
+				AppContainer app = new AppContainer(); <-- our problem
+                var newtab = new TitleBarTab(app) { Content = new BrowserMain(parameters.LinkUrl) { Text = "New Tab" } }; <-- tab that we need to add to main content
                 app.Tabs.Add(newtab);
-                app.SelectedTabIndex = app.SelectedTabIndex + 1;
-				app.RedrawTabs();
-				app.Refresh();
-                //TitleBarTabsApplicationContext applicationContext = new TitleBarTabsApplicationContext();
-                //applicationContext.Start(app);
+		Also, why create a TitleBartab inside a TitleBarTab again?
+                //app.Tabs.Add(new TitleBarTab(app) 
+                //{
+                //    Content = new BrowserMain(parameters.LinkUrl) { Text = "New Tab" }
+                //});
+                app.SelectedTabIndex = app.SelectedTabIndex + 1; <-- Also a tip: use "++;" instead if you just want to add one like this: app.SelectedTabIndex++; 
+
+                
+                TitleBarTabsApplicationContext applicationContext = new TitleBarTabsApplicationContext();
+                applicationContext.Start(app);
+		*/
 
 
                 return true;				
