@@ -107,9 +107,7 @@ namespace Browser
             InitializeComponent();
 
             ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
-            if (address == null || address == "")
-            {
-                WebBrowser = new ChromiumWebBrowser("about:blank")
+            WebBrowser = new ChromiumWebBrowser(string.IsNullOrWhiteSpace(address) ? "about:blank" : address) // using this method also eliminates white sapces like "  " and simplifies code
                 {
                     Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right,
                     Location = new Point(0, 38),
@@ -119,20 +117,6 @@ namespace Browser
                     TabIndex = 6,
                     LifeSpanHandler = new NewTabLifespanHandler(this)
                 };
-            }
-            else
-            {
-                WebBrowser = new ChromiumWebBrowser(address)
-                {
-                    Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right,
-                    Location = new Point(0, 38),
-                    MinimumSize = new Size(20, 20),
-                    Name = "webBrowser",
-                    Size = new Size(326, 251),
-                    TabIndex = 6,
-                    LifeSpanHandler = new NewTabLifespanHandler(this)
-                };
-            }
             mHandler = new ContextMenuHandler(this);
             WebBrowser.MenuHandler = mHandler;
             Controls.Add(WebBrowser);
@@ -203,18 +187,18 @@ namespace Browser
            if (ParentTabs.InvokeRequired) 
            {
                ParentTabs.Invoke(new Action(() => {
-                     ParentTabs.Tabs.Add(newtab);
-                     ParentTabs.SelectedTabIndex++; // similar to ParentTabs.SelectedIndex = ParentTabs.SelectedTabIndex + 1; or ParentTabs.SelectedTabIndex += 1;
+                     ParentTabs.Tabs.Insert(ParentTabs.SelectedTabIndex + 1, newtab);
+                     ParentTabs.SelectedTabIndex++;
                      ParentTabs.RedrawTabs();
-                     PrentTabs.Refresh();
+                     ParentTabs.Refresh();
                });
            }
            else 
            {
-               ParentTabs.Tabs.Add(newtab);
-               ParentTabs.SelectedTabIndex++; // similar to ParentTabs.SelectedIndex = ParentTabs.SelectedTabIndex + 1; or ParentTabs.SelectedTabIndex += 1;
+               ParentTabs.Tabs.Insert(ParentTabs.SelectedTabIndex + 1, newtab);
+               ParentTabs.SelectedTabIndex++;
                ParentTabs.RedrawTabs();
-               PrentTabs.Refresh();
+               ParentTabs.Refresh();
            }
         }
 
