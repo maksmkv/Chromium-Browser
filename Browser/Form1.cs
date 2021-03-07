@@ -109,7 +109,7 @@ namespace Browser
             InitializeComponent();
 
             ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
-            WebBrowser = new ChromiumWebBrowser(string.IsNullOrWhiteSpace(address) ? "about:blank" : address) // using this method also eliminates white sapces like "  " and simplifies code
+            WebBrowser = new ChromiumWebBrowser(string.IsNullOrWhiteSpace(address) ? "about:blank" : address)
                 {
                     Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right,
                     Location = new Point(0, 38),
