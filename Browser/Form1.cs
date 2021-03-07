@@ -191,7 +191,7 @@ namespace Browser
                      ParentTabs.SelectedTabIndex++;
                      ParentTabs.RedrawTabs();
                      ParentTabs.Refresh();
-               });
+               }));
            }
            else 
            {
