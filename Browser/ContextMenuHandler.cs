@@ -132,12 +132,19 @@ namespace Browser
 					myForm.CloseActiveTab();
                 }
             }
-            //if (id == RefreshTab)
-            //{
-            //	myForm.InvokeOnParent(delegate () {
-            //		myForm.RefreshActiveTab();
-            //	});
-            //}
+            if (id == RefreshTab)
+            {
+				if (myForm.InvokeRequired) {
+					myForm.Invoke(new Action(() =>
+					{
+						myForm.RefreshActiveTab();
+					}));
+				}
+                else
+                {
+					myForm.RefreshActiveTab();
+                }
+            }
 
             return false;
 		}
