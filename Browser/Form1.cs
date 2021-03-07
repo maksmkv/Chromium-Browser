@@ -275,6 +275,11 @@ namespace Browser
             sfd.ShowDialog();
             WebBrowser.PrintToPdfAsync(sfd.FileName);
         }
+
+        public void Bookmark()
+        {
+            //write to a json file here. Will need a way to view the bookmarks within browser though. Not yet implemented.
+        }
         private void WebBrowser_TitleChanged(object sender, TitleChangedEventArgs e)
         {
             Invoke(new Action(() => Text = e.Title));

@@ -149,11 +149,21 @@ namespace Browser
 					myForm.RefreshActiveTab();
                 }
             }
-			//if (id == Favorite)
-			//{
-
-			//}
-			if (id == SaveAsPdf) 
+            if (id == Favorite)
+            {
+				if (myForm.InvokeRequired)
+				{
+					myForm.Invoke(new Action(() =>
+					{
+						myForm.Bookmark();
+					}));
+				}
+				else
+				{
+					myForm.Bookmark();
+				}
+			}
+            if (id == SaveAsPdf) 
 			{
 				if (myForm.InvokeRequired)
 				{
