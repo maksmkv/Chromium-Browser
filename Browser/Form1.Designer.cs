@@ -40,6 +40,7 @@ namespace Browser
             this.buttonForward = new System.Windows.Forms.PictureBox();
             this.buttonBack = new System.Windows.Forms.PictureBox();
             this.openInANewTabToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.printPreviewDialog = new System.Windows.Forms.PrintPreviewDialog();
             this.toolbarBackground.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.buttonSettings)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.buttonBookmark)).BeginInit();
@@ -173,6 +174,16 @@ namespace Browser
             this.openInANewTabToolStripMenuItem.Name = "openInANewTabToolStripMenuItem";
             this.openInANewTabToolStripMenuItem.Size = new System.Drawing.Size(32, 19);
             // 
+            // printPreviewDialog
+            // 
+            this.printPreviewDialog.AutoScrollMargin = new System.Drawing.Size(0, 0);
+            this.printPreviewDialog.AutoScrollMinSize = new System.Drawing.Size(0, 0);
+            this.printPreviewDialog.ClientSize = new System.Drawing.Size(400, 300);
+            this.printPreviewDialog.Enabled = true;
+            this.printPreviewDialog.Icon = ((System.Drawing.Icon)(resources.GetObject("printPreviewDialog.Icon")));
+            this.printPreviewDialog.Name = "printPreviewDialog";
+            this.printPreviewDialog.Visible = false;
+            // 
             // BrowserMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -210,6 +221,7 @@ namespace Browser
         private System.Windows.Forms.PictureBox buttonBookmark;
         private System.Windows.Forms.PictureBox buttonSettings;
         private System.Windows.Forms.ToolStripMenuItem openInANewTabToolStripMenuItem;
+        private System.Windows.Forms.PrintPreviewDialog printPreviewDialog;
     }
 }
 

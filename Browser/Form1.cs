@@ -5,6 +5,7 @@ using EasyTabs;
 using System;
 using System.Diagnostics;
 using System.Drawing;
+using System.Drawing.Printing;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -262,7 +263,23 @@ namespace Browser
                 WebBrowser.Load(this.AddressBar.Text);
             }
         }
+        public void Print()
+        {
+            WebBrowser.Print();
+        }
+        public void SaveAsPDF()
+        {
+            SaveFileDialog sfd = new SaveFileDialog();
+            sfd.DefaultExt= "pdf";
+            sfd.Filter = "Adobe PDF Files (*.pdf)|*.pdf|All files (*.*)|*.*";
+            sfd.ShowDialog();
+            WebBrowser.PrintToPdfAsync(sfd.FileName);
+        }
 
+        public void Bookmark()
+        {
+            //write to a json file here. Will need a way to view the bookmarks within browser though. Not yet implemented.
+        }
         private void WebBrowser_TitleChanged(object sender, TitleChangedEventArgs e)
         {
             Invoke(new Action(() => Text = e.Title));
