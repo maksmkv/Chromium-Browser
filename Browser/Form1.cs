@@ -262,6 +262,11 @@ namespace Browser
                 WebBrowser.Load(this.AddressBar.Text);
             }
         }
+        public void Print()
+        {
+            PrintPreviewDialog printDialog = new PrintPreviewDialog();
+            printDialog.ShowDialog();
+        }
 
         private void WebBrowser_TitleChanged(object sender, TitleChangedEventArgs e)
         {

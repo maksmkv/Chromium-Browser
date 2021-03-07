@@ -21,6 +21,8 @@ namespace Browser
 		private const int OpenLinkInNewTab = 26507;
 		private const int CloseTab = 40007;
 		private const int RefreshTab = 40008;
+		private const int Favorite = 40009;
+		private const int Print = 40010;
 		readonly BrowserMain myForm;
 
 		private string lastSelText = "";
@@ -75,9 +77,10 @@ namespace Browser
 			model.AddItem(CefMenuCommand.ViewSource, "View source");
 			model.AddSeparator();
 			//#endif
-
+			model.AddItem((CefMenuCommand)Print, "Print");
 			model.AddItem((CefMenuCommand)RefreshTab, "Refresh tab");
 			model.AddItem((CefMenuCommand)CloseTab, "Close tab");
+			model.AddItem((CefMenuCommand)Favorite, "Bookmark tab");
 
 		}
 
@@ -144,6 +147,25 @@ namespace Browser
                 {
 					myForm.RefreshActiveTab();
                 }
+            }
+            //if (id == Favorite)
+            //{
+
+            //}
+            if (id == Print)
+            {
+				if (myForm.InvokeRequired)
+				{
+					myForm.Invoke(new Action(() =>
+					{
+						myForm.Print();
+					}));
+				}
+				else
+				{
+					myForm.Print();
+				}
+				
             }
 
             return false;
