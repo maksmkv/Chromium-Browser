@@ -104,8 +104,8 @@ namespace Browser
 			}
 			if (id == OpenLinkInNewTab)
 			{
-                                var url = parameters.LinkUrl;
-                                // I have no idea why creating a variable fixed it.
+				var url = parameters.LinkUrl;
+
 				if (myForm.InvokeRequired) 
 				{ 
 				    myForm.Invoke(new Action(() => myForm.CreateNewTab(url))); 
@@ -115,27 +115,31 @@ namespace Browser
 				} 
 
 
-                return true;				
-				//ChromiumWebBrowser newBrowser = myForm.AddNewBrowserTab(parameters.LinkUrl, false, browser.MainFrame.Url);
+                return true;
 			}
 			if (id == CopyLinkAddress)
 			{
 				Clipboard.SetText(parameters.LinkUrl);
 			}
-			//if (id == CloseTab)
-			//{
-			//	myForm.InvokeOnParent(delegate () {
-			//		myForm.CloseActiveTab();
-			//	});
-			//}
-			//if (id == RefreshTab)
-			//{
-			//	myForm.InvokeOnParent(delegate () {
-			//		myForm.RefreshActiveTab();
-			//	});
-			//}
+            if (id == CloseTab)
+            {
+                if (myForm.InvokeRequired)
+                {
+					myForm.Invoke(new Action(()=> myForm.CloseActiveTab()));
+                }
+                else
+                {
+					myForm.CloseActiveTab();
+                }
+            }
+            //if (id == RefreshTab)
+            //{
+            //	myForm.InvokeOnParent(delegate () {
+            //		myForm.RefreshActiveTab();
+            //	});
+            //}
 
-			return false;
+            return false;
 		}
 
 		public void OnContextMenuDismissed(IWebBrowser browserControl, IBrowser browser, IFrame frame)

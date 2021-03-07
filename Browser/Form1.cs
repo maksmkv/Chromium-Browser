@@ -201,6 +201,37 @@ namespace Browser
                ParentTabs.Refresh();
            }
         }
+        public void CloseActiveTab()
+        {
+            if (ParentTabs.InvokeRequired)
+            {
+                if (ParentTabs.Tabs.Count() > 1) {
+                    ParentTabs.Invoke(new Action(() => {
+                        ParentTabs.Tabs.Remove(ParentTabs.SelectedTab);
+                        ParentTabs.SelectedTabIndex--;
+                        ParentTabs.RedrawTabs();
+                        ParentTabs.Refresh();
+                    }));
+                }
+                else
+                {
+                    this.Close();
+                }
+            }
+            else
+            {
+                if (ParentTabs.Tabs.Count() > 1) {
+                    ParentTabs.Tabs.Remove(ParentTabs.SelectedTab);
+                    ParentTabs.SelectedTabIndex = ParentTabs.Tabs.Count() - 1;
+                    ParentTabs.RedrawTabs();
+                    ParentTabs.Refresh();
+                }
+                else
+                {
+                    this.Close();
+                }
+            }
+        }
 
         private void WebBrowser_TitleChanged(object sender, TitleChangedEventArgs e)
         {
