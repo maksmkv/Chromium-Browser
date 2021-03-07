@@ -78,6 +78,7 @@ namespace Browser
 			model.AddSeparator();
 			//#endif
 			model.AddItem((CefMenuCommand)Print, "Print");
+			model.AddItem((CefMenuCommand)SaveAsPdf, "Save as PDF");
 			model.AddItem((CefMenuCommand)RefreshTab, "Refresh tab");
 			model.AddItem((CefMenuCommand)CloseTab, "Close tab");
 			model.AddItem((CefMenuCommand)Favorite, "Bookmark tab");
@@ -148,10 +149,24 @@ namespace Browser
 					myForm.RefreshActiveTab();
                 }
             }
-            //if (id == Favorite)
-            //{
+			//if (id == Favorite)
+			//{
 
-            //}
+			//}
+			if (id == SaveAsPdf) 
+			{
+				if (myForm.InvokeRequired)
+				{
+					myForm.Invoke(new Action(() =>
+					{
+						myForm.SaveAsPDF();
+					}));
+				}
+				else
+				{
+					myForm.SaveAsPDF();
+				}
+			}
             if (id == Print)
             {
 				if (myForm.InvokeRequired)
