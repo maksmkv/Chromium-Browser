@@ -3,11 +3,13 @@ using CefSharp;
 using CefSharp.WinForms;
 using EasyTabs;
 using System;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace Browser
@@ -161,10 +163,25 @@ namespace Browser
 
                                 Invoke(new Action(() =>
                                 {
-                                    Icon = new Icon(ms);
-
-                                    ParentTabs.UpdateThumbnailPreviewIcon(ParentTabs.Tabs.Single(t => t.Content == this));
-                                    ParentTabs.RedrawTabs();
+                                    try
+                                    {
+                                        Icon = new Icon(ms);
+                                        ParentTabs.UpdateThumbnailPreviewIcon(ParentTabs.Tabs.Single(t => t.Content == this));
+                                        ParentTabs.RedrawTabs();
+                                    }
+                                    catch(Exception ex) 
+                                    {
+                                        var thread = new Thread(new ThreadStart(new Action(() =>
+                                        {
+                                            using (EventLog eventLog = new EventLog("Application"))
+                                            {
+                                                eventLog.Source = "Application";
+                                                eventLog.WriteEntry(ex.Message, EventLogEntryType.Information, 101, 1);
+                                            }
+                                        })));
+                                        thread.Start();
+                                        Icon = Resources.DefaultIcon;
+                                    }
                                 }));
                             }
                         }
@@ -230,6 +247,19 @@ namespace Browser
                 {
                     this.Close();
                 }
+            }
+        }
+        public void RefreshActiveTab()
+        {
+            if (ParentTabs.InvokeRequired)
+            {
+                ParentTabs.Invoke(new Action(()=> {
+                    WebBrowser.Load(this.AddressBar.Text);
+                }));
+            }
+            else
+            {
+                WebBrowser.Load(this.AddressBar.Text);
             }
         }
 
