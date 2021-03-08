@@ -2,7 +2,9 @@
 using CefSharp;
 using CefSharp.WinForms;
 using EasyTabs;
+using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Printing;
@@ -18,6 +20,8 @@ namespace Browser
     public partial class BrowserMain : Form
     {
         private ContextMenuHandler mHandler;
+        private bool hasEnteredBookmarks = false;
+        private Icon pIcon;
         private class NewTabLifespanHandler : ILifeSpanHandler
         {
             private BrowserMain _tab;
@@ -167,20 +171,13 @@ namespace Browser
                                     try
                                     {
                                         Icon = new Icon(ms);
+                                        pIcon = Icon;
                                         ParentTabs.UpdateThumbnailPreviewIcon(ParentTabs.Tabs.Single(t => t.Content == this));
                                         ParentTabs.RedrawTabs();
                                     }
                                     catch(Exception ex) 
                                     {
-                                        var thread = new Thread(new ThreadStart(new Action(() =>
-                                        {
-                                            using (EventLog eventLog = new EventLog("Application"))
-                                            {
-                                                eventLog.Source = "Application";
-                                                eventLog.WriteEntry(ex.Message, EventLogEntryType.Information, 101, 1);
-                                            }
-                                        })));
-                                        thread.Start();
+                                        ThreadPool.QueueUserWorkItem(delegate { LogError(ex); });
                                         Icon = Resources.DefaultIcon;
                                     }
                                 }));
@@ -276,10 +273,134 @@ namespace Browser
             WebBrowser.PrintToPdfAsync(sfd.FileName);
         }
 
-        public void Bookmark()
+        public void AddBookmark()
         {
-            //write to a json file here. Will need a way to view the bookmarks within browser though. Not yet implemented.
+            var iconPath = "";
+            try
+            {
+                Bitmap bmp;
+                iconPath = Path.Combine(Application.StartupPath, "Icons");
+
+                if (Directory.Exists(iconPath))
+                {
+                    DirectoryInfo dir = new DirectoryInfo(iconPath);
+                    bookmarkImageList.Images.Clear();
+                    foreach (FileInfo file in dir.GetFiles())
+                    {
+                        bookmarkImageList.Images.Add(Image.FromFile(file.FullName));
+                    }
+                    iconPath = Path.Combine(iconPath, ParentTabs.SelectedTab.Content.Text + ".ico");
+                    if (!File.Exists(iconPath))
+                    {
+                        if (pIcon == null)
+                        {
+                            bmp = Resources.DefaultIcon.ToBitmap();
+                        }
+                        else
+                        {
+                            bmp = pIcon.ToBitmap();
+                        }
+                        bmp.Save(iconPath, System.Drawing.Imaging.ImageFormat.Icon);
+                        if(bookmarkImageList.Images.IndexOfKey(ParentTabs.SelectedTab.Content.Text) == -1)
+                        {
+                            bookmarkImageList.Images.Add(ParentTabs.SelectedTab.Content.Text, bmp);
+                        }
+                    }
+                }
+                else
+                {
+                    Directory.CreateDirectory(iconPath);
+                    iconPath = Path.Combine(iconPath, ParentTabs.SelectedTab.Content.Text + ".ico");
+                    if (!File.Exists(iconPath))
+                    {
+                        if (pIcon == null)
+                        {
+                            bmp = Resources.DefaultIcon.ToBitmap();
+                        }
+                        else
+                        {
+                            bmp = pIcon.ToBitmap();
+                        }
+                        bmp.Save(iconPath, System.Drawing.Imaging.ImageFormat.Icon);
+                        if (bookmarkImageList.Images.IndexOfKey(ParentTabs.SelectedTab.Content.Text) == -1)
+                        {
+                            bookmarkImageList.Images.Add(ParentTabs.SelectedTab.Content.Text, bmp);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                ThreadPool.QueueUserWorkItem(delegate { LogError(ex); });
+            }
+
+            BookmarkClass _data = new BookmarkClass
+            {
+                Title = ParentTabs.SelectedTab.Content.Text,
+                Url = this.AddressBar.Text
+            };
+            try
+            {
+                string json = "";
+                var path = Path.Combine(Application.StartupPath, "Bookmarks.json");
+                if (File.Exists(path))
+                {
+                    var JSONData = File.ReadAllText(path);
+                    var bookmarks = JsonConvert.DeserializeObject<List<BookmarkClass>>(JSONData);
+                    bookmarks.Add(_data);
+                    json = JsonConvert.SerializeObject(bookmarks, Formatting.Indented);
+                }
+                else
+                {
+                    List<BookmarkClass> bookmarks = new List<BookmarkClass>();
+                    bookmarks.Add(_data);
+                    json = JsonConvert.SerializeObject(bookmarks, Formatting.Indented);
+                }
+                File.WriteAllText(path, json);
+            }
+            catch (Exception ex)
+            {
+                ThreadPool.QueueUserWorkItem(delegate { LogError(ex); });
+            }
         }
+
+        public void GetBookmarks()
+        {
+            try
+            {
+                var iconPath = Path.Combine(Application.StartupPath, "Icons");
+                DirectoryInfo dir = new DirectoryInfo(iconPath);
+                bookmarkImageList.Images.Clear();
+                foreach (var file in dir.GetFiles())
+                {
+                    bookmarkImageList.Images.Add(file.Name,Image.FromFile(file.FullName));
+                }
+                List<BookmarkClass> bookmarks;
+                var path = Path.Combine(Application.StartupPath, "Bookmarks.json");
+                if (File.Exists(path))
+                {
+                    var JSONData = File.ReadAllText(path);
+                    bookmarks = JsonConvert.DeserializeObject<List<BookmarkClass>>(JSONData);
+                }
+                else
+                {
+                    bookmarks = new List<BookmarkClass>();
+                }
+                BookmarksView.BeginUpdate();
+                BookmarksView.Nodes.Clear();
+                foreach(var item in bookmarks)
+                {
+                    BookmarksView.Nodes.Add("" ,item.Title,bookmarkImageList.Images.IndexOfKey(item.Title+".ico"), bookmarkImageList.Images.IndexOfKey(item.Title+".ico"));
+                }
+                BookmarksView.EndUpdate();
+
+            }
+            catch (Exception ex)
+            {
+                ThreadPool.QueueUserWorkItem(delegate { LogError(ex); });
+            }
+        }
+        
         private void WebBrowser_TitleChanged(object sender, TitleChangedEventArgs e)
         {
             Invoke(new Action(() => Text = e.Title));
@@ -362,7 +483,70 @@ namespace Browser
 
         private void BrowserMain_FormClosing(object sender, FormClosingEventArgs e)
         {
+            
         }
-       
+        static void LogError(Exception ex)
+        {
+            using (EventLog eventLog = new EventLog("Application"))
+            {
+                eventLog.Source = "Application";
+                eventLog.WriteEntry(ex.Message, EventLogEntryType.Information, 101, 1);
+            }
+        }
+
+        private void BookmarksView_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
+        {
+            try
+            {
+                var path = Path.Combine(Application.StartupPath, "Bookmarks.json");
+                List<BookmarkClass> bookmark;
+                if (File.Exists(path))
+                {
+                    var JSONData = File.ReadAllText(path);
+                    bookmark = JsonConvert.DeserializeObject<List<BookmarkClass>>(JSONData);
+                    var b = bookmark.Find(x => x.Title == e.Node.Text);
+                    var url = b.Url;
+                    CreateNewTab(url);
+                    BookmarksView.Visible = false;
+                }
+            }
+            catch (Exception ex)
+            {
+                ThreadPool.QueueUserWorkItem(delegate { LogError(ex); });
+            }
+        }
+
+        private void buttonBookmark_Click(object sender, EventArgs e)
+        {
+            if(BookmarksView.Visible == false)
+            {
+                try
+                {
+                    GetBookmarks();
+                }
+                catch (Exception ex)
+                {
+                    ThreadPool.QueueUserWorkItem(delegate { LogError(ex); });
+                }
+                BookmarksView.Visible = true;
+            }
+            else
+            {
+                BookmarksView.Visible = false;
+            }
+        }
+
+        private void BookmarksView_MouseEnter(object sender, EventArgs e)
+        {
+            hasEnteredBookmarks = true;
+        }
+
+        private void BookmarksView_MouseLeave(object sender, EventArgs e)
+        {
+            if (hasEnteredBookmarks)
+            {
+                BookmarksView.Visible = false;
+            }
+        }
     }
 }
