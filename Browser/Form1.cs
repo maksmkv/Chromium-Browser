@@ -2,7 +2,9 @@
 using CefSharp;
 using CefSharp.WinForms;
 using EasyTabs;
+using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Printing;
@@ -172,15 +174,7 @@ namespace Browser
                                     }
                                     catch(Exception ex) 
                                     {
-                                        var thread = new Thread(new ThreadStart(new Action(() =>
-                                        {
-                                            using (EventLog eventLog = new EventLog("Application"))
-                                            {
-                                                eventLog.Source = "Application";
-                                                eventLog.WriteEntry(ex.Message, EventLogEntryType.Information, 101, 1);
-                                            }
-                                        })));
-                                        thread.Start();
+                                        ThreadPool.QueueUserWorkItem(delegate { LogError(ex); });
                                         Icon = Resources.DefaultIcon;
                                     }
                                 }));
@@ -278,7 +272,47 @@ namespace Browser
 
         public void Bookmark()
         {
-            //write to a json file here. Will need a way to view the bookmarks within browser though. Not yet implemented.
+            BookmarkClass _data = new BookmarkClass 
+            {
+                Title = ParentTabs.SelectedTab.Content.Text,
+                Url = this.AddressBar.Text,
+                Icon = ""
+            };
+            try
+            {
+                string json = "";
+                var path = Path.Combine(Application.StartupPath, "Bookmarks.json");
+                if (File.Exists(path))
+                {
+                    var stuff = File.ReadAllText(path);
+                    var bookmarks = JsonConvert.DeserializeObject<List<BookmarkClass>>(stuff);
+                    bookmarks.Add(_data);
+                    json = JsonConvert.SerializeObject(bookmarks, Formatting.Indented);
+                }
+                else
+                {
+                    List<BookmarkClass> bookmarks = new List<BookmarkClass>();
+                    bookmarks.Add(_data);
+                    json = JsonConvert.SerializeObject(bookmarks, Formatting.Indented);
+                }
+                File.WriteAllText(path, json);
+            }
+            catch (Exception ex)
+            {
+                ThreadPool.QueueUserWorkItem(delegate { LogError(ex); });
+            }
+        }
+        static void LogError(Exception ex)
+        {
+            var thread = new Thread(new ThreadStart(new Action(() =>
+            {
+                using (EventLog eventLog = new EventLog("Application"))
+                {
+                    eventLog.Source = "Application";
+                    eventLog.WriteEntry(ex.Message, EventLogEntryType.Information, 101, 1);
+                }
+            })));
+            thread.Start();
         }
         private void WebBrowser_TitleChanged(object sender, TitleChangedEventArgs e)
         {
@@ -362,6 +396,7 @@ namespace Browser
 
         private void BrowserMain_FormClosing(object sender, FormClosingEventArgs e)
         {
+            
         }
        
     }
