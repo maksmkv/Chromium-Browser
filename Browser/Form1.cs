@@ -20,6 +20,7 @@ namespace Browser
     public partial class BrowserMain : Form
     {
         private ContextMenuHandler mHandler;
+        private bool hasEnteredBookmarks = false;
         private class NewTabLifespanHandler : ILifeSpanHandler
         {
             private BrowserMain _tab;
@@ -270,7 +271,7 @@ namespace Browser
             WebBrowser.PrintToPdfAsync(sfd.FileName);
         }
 
-        public void Bookmark()
+        public void AddBookmark()
         {
             BookmarkClass _data = new BookmarkClass 
             {
@@ -284,8 +285,8 @@ namespace Browser
                 var path = Path.Combine(Application.StartupPath, "Bookmarks.json");
                 if (File.Exists(path))
                 {
-                    var stuff = File.ReadAllText(path);
-                    var bookmarks = JsonConvert.DeserializeObject<List<BookmarkClass>>(stuff);
+                    var JSONData = File.ReadAllText(path);
+                    var bookmarks = JsonConvert.DeserializeObject<List<BookmarkClass>>(JSONData);
                     bookmarks.Add(_data);
                     json = JsonConvert.SerializeObject(bookmarks, Formatting.Indented);
                 }
@@ -302,18 +303,37 @@ namespace Browser
                 ThreadPool.QueueUserWorkItem(delegate { LogError(ex); });
             }
         }
-        static void LogError(Exception ex)
+
+        public void GetBookmarks()
         {
-            var thread = new Thread(new ThreadStart(new Action(() =>
+            try
             {
-                using (EventLog eventLog = new EventLog("Application"))
+                List<BookmarkClass> bookmarks;
+                var path = Path.Combine(Application.StartupPath, "Bookmarks.json");
+                if (File.Exists(path))
                 {
-                    eventLog.Source = "Application";
-                    eventLog.WriteEntry(ex.Message, EventLogEntryType.Information, 101, 1);
+                    var JSONData = File.ReadAllText(path);
+                    bookmarks = JsonConvert.DeserializeObject<List<BookmarkClass>>(JSONData);
                 }
-            })));
-            thread.Start();
+                else
+                {
+                    bookmarks = new List<BookmarkClass>();
+                }
+                BookmarksView.BeginUpdate();
+                BookmarksView.Nodes.Clear();
+                foreach(var item in bookmarks)
+                {
+                    BookmarksView.Nodes.Add(item.Title);
+                }
+                BookmarksView.EndUpdate();
+
+            }
+            catch (Exception ex)
+            {
+                ThreadPool.QueueUserWorkItem(delegate { LogError(ex); });
+            }
         }
+        
         private void WebBrowser_TitleChanged(object sender, TitleChangedEventArgs e)
         {
             Invoke(new Action(() => Text = e.Title));
@@ -398,6 +418,68 @@ namespace Browser
         {
             
         }
-       
+        static void LogError(Exception ex)
+        {
+            using (EventLog eventLog = new EventLog("Application"))
+            {
+                eventLog.Source = "Application";
+                eventLog.WriteEntry(ex.Message, EventLogEntryType.Information, 101, 1);
+            }
+        }
+
+        private void BookmarksView_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
+        {
+            try
+            {
+                var path = Path.Combine(Application.StartupPath, "Bookmarks.json");
+                List<BookmarkClass> bookmark;
+                if (File.Exists(path))
+                {
+                    var JSONData = File.ReadAllText(path);
+                    bookmark = JsonConvert.DeserializeObject<List<BookmarkClass>>(JSONData);
+                    var b = bookmark.Find(x => x.Title == e.Node.Text);
+                    var url = b.Url;
+                    CreateNewTab(url);
+                    BookmarksView.Visible = false;
+                }
+            }
+            catch (Exception ex)
+            {
+                ThreadPool.QueueUserWorkItem(delegate { LogError(ex); });
+            }
+        }
+
+        private void buttonBookmark_Click(object sender, EventArgs e)
+        {
+            if(BookmarksView.Visible == false)
+            {
+                try
+                {
+                    GetBookmarks();
+                }
+                catch (Exception ex)
+                {
+                    ThreadPool.QueueUserWorkItem(delegate { LogError(ex); });
+                }
+                BookmarksView.Visible = true;
+            }
+            else
+            {
+                BookmarksView.Visible = false;
+            }
+        }
+
+        private void BookmarksView_MouseEnter(object sender, EventArgs e)
+        {
+            hasEnteredBookmarks = true;
+        }
+
+        private void BookmarksView_MouseLeave(object sender, EventArgs e)
+        {
+            if (hasEnteredBookmarks)
+            {
+                BookmarksView.Visible = false;
+            }
+        }
     }
 }

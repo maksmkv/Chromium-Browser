@@ -155,12 +155,12 @@ namespace Browser
 				{
 					myForm.Invoke(new Action(() =>
 					{
-						myForm.Bookmark();
+						myForm.AddBookmark();
 					}));
 				}
 				else
 				{
-					myForm.Bookmark();
+					myForm.AddBookmark();
 				}
 			}
             if (id == SaveAsPdf) 

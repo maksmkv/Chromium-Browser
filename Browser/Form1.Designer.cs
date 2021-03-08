@@ -40,7 +40,7 @@ namespace Browser
             this.buttonForward = new System.Windows.Forms.PictureBox();
             this.buttonBack = new System.Windows.Forms.PictureBox();
             this.openInANewTabToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.printPreviewDialog = new System.Windows.Forms.PrintPreviewDialog();
+            this.BookmarksView = new System.Windows.Forms.TreeView();
             this.toolbarBackground.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.buttonSettings)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.buttonBookmark)).BeginInit();
@@ -89,6 +89,7 @@ namespace Browser
             this.buttonBookmark.Size = new System.Drawing.Size(28, 28);
             this.buttonBookmark.TabIndex = 9;
             this.buttonBookmark.TabStop = false;
+            this.buttonBookmark.Click += new System.EventHandler(this.buttonBookmark_Click);
             this.buttonBookmark.MouseEnter += new System.EventHandler(this.buttonBookmark_MouseEnter);
             this.buttonBookmark.MouseLeave += new System.EventHandler(this.buttonBookmark_MouseLeave);
             // 
@@ -174,15 +175,18 @@ namespace Browser
             this.openInANewTabToolStripMenuItem.Name = "openInANewTabToolStripMenuItem";
             this.openInANewTabToolStripMenuItem.Size = new System.Drawing.Size(32, 19);
             // 
-            // printPreviewDialog
+            // BookmarksView
             // 
-            this.printPreviewDialog.AutoScrollMargin = new System.Drawing.Size(0, 0);
-            this.printPreviewDialog.AutoScrollMinSize = new System.Drawing.Size(0, 0);
-            this.printPreviewDialog.ClientSize = new System.Drawing.Size(400, 300);
-            this.printPreviewDialog.Enabled = true;
-            this.printPreviewDialog.Icon = ((System.Drawing.Icon)(resources.GetObject("printPreviewDialog.Icon")));
-            this.printPreviewDialog.Name = "printPreviewDialog";
-            this.printPreviewDialog.Visible = false;
+            this.BookmarksView.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.BookmarksView.Location = new System.Drawing.Point(38, 40);
+            this.BookmarksView.Name = "BookmarksView";
+            this.BookmarksView.Size = new System.Drawing.Size(279, 237);
+            this.BookmarksView.TabIndex = 4;
+            this.BookmarksView.Visible = false;
+            this.BookmarksView.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.BookmarksView_NodeMouseClick);
+            this.BookmarksView.MouseEnter += new System.EventHandler(this.BookmarksView_MouseEnter);
+            this.BookmarksView.MouseLeave += new System.EventHandler(this.BookmarksView_MouseLeave);
             // 
             // BrowserMain
             // 
@@ -190,6 +194,7 @@ namespace Browser
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(326, 289);
+            this.Controls.Add(this.BookmarksView);
             this.Controls.Add(this.toolbarBackground);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(2);
@@ -221,7 +226,7 @@ namespace Browser
         private System.Windows.Forms.PictureBox buttonBookmark;
         private System.Windows.Forms.PictureBox buttonSettings;
         private System.Windows.Forms.ToolStripMenuItem openInANewTabToolStripMenuItem;
-        private System.Windows.Forms.PrintPreviewDialog printPreviewDialog;
+        private System.Windows.Forms.TreeView BookmarksView;
     }
 }
 
