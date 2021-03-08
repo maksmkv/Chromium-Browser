@@ -29,6 +29,7 @@ namespace Browser
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(BrowserMain));
             this.toolbarBackground = new System.Windows.Forms.Panel();
             this.buttonSettings = new System.Windows.Forms.PictureBox();
@@ -41,6 +42,7 @@ namespace Browser
             this.buttonBack = new System.Windows.Forms.PictureBox();
             this.openInANewTabToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.BookmarksView = new System.Windows.Forms.TreeView();
+            this.bookmarkImageList = new System.Windows.Forms.ImageList(this.components);
             this.toolbarBackground.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.buttonSettings)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.buttonBookmark)).BeginInit();
@@ -179,14 +181,23 @@ namespace Browser
             // 
             this.BookmarksView.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.BookmarksView.ImageIndex = 0;
+            this.BookmarksView.ImageList = this.bookmarkImageList;
             this.BookmarksView.Location = new System.Drawing.Point(38, 40);
             this.BookmarksView.Name = "BookmarksView";
+            this.BookmarksView.SelectedImageIndex = 0;
             this.BookmarksView.Size = new System.Drawing.Size(279, 237);
             this.BookmarksView.TabIndex = 4;
             this.BookmarksView.Visible = false;
             this.BookmarksView.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.BookmarksView_NodeMouseClick);
             this.BookmarksView.MouseEnter += new System.EventHandler(this.BookmarksView_MouseEnter);
             this.BookmarksView.MouseLeave += new System.EventHandler(this.BookmarksView_MouseLeave);
+            // 
+            // bookmarkImageList
+            // 
+            this.bookmarkImageList.ColorDepth = System.Windows.Forms.ColorDepth.Depth8Bit;
+            this.bookmarkImageList.ImageSize = new System.Drawing.Size(16, 16);
+            this.bookmarkImageList.TransparentColor = System.Drawing.Color.Transparent;
             // 
             // BrowserMain
             // 
@@ -227,6 +238,7 @@ namespace Browser
         private System.Windows.Forms.PictureBox buttonSettings;
         private System.Windows.Forms.ToolStripMenuItem openInANewTabToolStripMenuItem;
         private System.Windows.Forms.TreeView BookmarksView;
+        private System.Windows.Forms.ImageList bookmarkImageList;
     }
 }
 

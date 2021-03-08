@@ -21,6 +21,7 @@ namespace Browser
     {
         private ContextMenuHandler mHandler;
         private bool hasEnteredBookmarks = false;
+        private Icon pIcon;
         private class NewTabLifespanHandler : ILifeSpanHandler
         {
             private BrowserMain _tab;
@@ -170,6 +171,7 @@ namespace Browser
                                     try
                                     {
                                         Icon = new Icon(ms);
+                                        pIcon = Icon;
                                         ParentTabs.UpdateThumbnailPreviewIcon(ParentTabs.Tabs.Single(t => t.Content == this));
                                         ParentTabs.RedrawTabs();
                                     }
@@ -273,11 +275,69 @@ namespace Browser
 
         public void AddBookmark()
         {
-            BookmarkClass _data = new BookmarkClass 
+            var iconPath = "";
+            try
+            {
+                Bitmap bmp;
+                iconPath = Path.Combine(Application.StartupPath, "Icons");
+
+                if (Directory.Exists(iconPath))
+                {
+                    DirectoryInfo dir = new DirectoryInfo(iconPath);
+                    bookmarkImageList.Images.Clear();
+                    foreach (FileInfo file in dir.GetFiles())
+                    {
+                        bookmarkImageList.Images.Add(Image.FromFile(file.FullName));
+                    }
+                    iconPath = Path.Combine(iconPath, ParentTabs.SelectedTab.Content.Text + ".ico");
+                    if (!File.Exists(iconPath))
+                    {
+                        if (pIcon == null)
+                        {
+                            bmp = Resources.DefaultIcon.ToBitmap();
+                        }
+                        else
+                        {
+                            bmp = pIcon.ToBitmap();
+                        }
+                        bmp.Save(iconPath, System.Drawing.Imaging.ImageFormat.Icon);
+                        if(bookmarkImageList.Images.IndexOfKey(ParentTabs.SelectedTab.Content.Text) == -1)
+                        {
+                            bookmarkImageList.Images.Add(ParentTabs.SelectedTab.Content.Text, bmp);
+                        }
+                    }
+                }
+                else
+                {
+                    Directory.CreateDirectory(iconPath);
+                    iconPath = Path.Combine(iconPath, ParentTabs.SelectedTab.Content.Text + ".ico");
+                    if (!File.Exists(iconPath))
+                    {
+                        if (pIcon == null)
+                        {
+                            bmp = Resources.DefaultIcon.ToBitmap();
+                        }
+                        else
+                        {
+                            bmp = pIcon.ToBitmap();
+                        }
+                        bmp.Save(iconPath, System.Drawing.Imaging.ImageFormat.Icon);
+                        if (bookmarkImageList.Images.IndexOfKey(ParentTabs.SelectedTab.Content.Text) == -1)
+                        {
+                            bookmarkImageList.Images.Add(ParentTabs.SelectedTab.Content.Text, bmp);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                ThreadPool.QueueUserWorkItem(delegate { LogError(ex); });
+            }
+
+            BookmarkClass _data = new BookmarkClass
             {
                 Title = ParentTabs.SelectedTab.Content.Text,
-                Url = this.AddressBar.Text,
-                Icon = ""
+                Url = this.AddressBar.Text
             };
             try
             {
@@ -308,6 +368,13 @@ namespace Browser
         {
             try
             {
+                var iconPath = Path.Combine(Application.StartupPath, "Icons");
+                DirectoryInfo dir = new DirectoryInfo(iconPath);
+                bookmarkImageList.Images.Clear();
+                foreach (var file in dir.GetFiles())
+                {
+                    bookmarkImageList.Images.Add(file.Name,Image.FromFile(file.FullName));
+                }
                 List<BookmarkClass> bookmarks;
                 var path = Path.Combine(Application.StartupPath, "Bookmarks.json");
                 if (File.Exists(path))
@@ -323,7 +390,7 @@ namespace Browser
                 BookmarksView.Nodes.Clear();
                 foreach(var item in bookmarks)
                 {
-                    BookmarksView.Nodes.Add(item.Title);
+                    BookmarksView.Nodes.Add("" ,item.Title,bookmarkImageList.Images.IndexOfKey(item.Title+".ico"), bookmarkImageList.Images.IndexOfKey(item.Title+".ico"));
                 }
                 BookmarksView.EndUpdate();
 
