@@ -43,6 +43,12 @@ namespace Browser
             this.openInANewTabToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.BookmarksView = new System.Windows.Forms.TreeView();
             this.bookmarkImageList = new System.Windows.Forms.ImageList(this.components);
+            this.ToolsPanel = new System.Windows.Forms.Panel();
+            this.toolboxSaveButton = new System.Windows.Forms.Button();
+            this.SearchToolbox = new System.Windows.Forms.ComboBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.HomepageToolText = new System.Windows.Forms.TextBox();
+            this.HomepageToolLabel = new System.Windows.Forms.Label();
             this.toolbarBackground.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.buttonSettings)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.buttonBookmark)).BeginInit();
@@ -51,6 +57,7 @@ namespace Browser
             ((System.ComponentModel.ISupportInitialize)(this.urlBoxLeft)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.buttonForward)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.buttonBack)).BeginInit();
+            this.ToolsPanel.SuspendLayout();
             this.SuspendLayout();
             // 
             // toolbarBackground
@@ -77,6 +84,7 @@ namespace Browser
             this.buttonSettings.Size = new System.Drawing.Size(28, 28);
             this.buttonSettings.TabIndex = 10;
             this.buttonSettings.TabStop = false;
+            this.buttonSettings.Click += new System.EventHandler(this.buttonSettings_Click);
             this.buttonSettings.MouseEnter += new System.EventHandler(this.buttonSettings_MouseEnter);
             this.buttonSettings.MouseLeave += new System.EventHandler(this.buttonSettings_MouseLeave);
             // 
@@ -199,19 +207,89 @@ namespace Browser
             this.bookmarkImageList.ImageSize = new System.Drawing.Size(16, 16);
             this.bookmarkImageList.TransparentColor = System.Drawing.Color.Transparent;
             // 
+            // ToolsPanel
+            // 
+            this.ToolsPanel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.ToolsPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.ToolsPanel.Controls.Add(this.toolboxSaveButton);
+            this.ToolsPanel.Controls.Add(this.SearchToolbox);
+            this.ToolsPanel.Controls.Add(this.label1);
+            this.ToolsPanel.Controls.Add(this.HomepageToolText);
+            this.ToolsPanel.Controls.Add(this.HomepageToolLabel);
+            this.ToolsPanel.Location = new System.Drawing.Point(38, 44);
+            this.ToolsPanel.Name = "ToolsPanel";
+            this.ToolsPanel.Size = new System.Drawing.Size(279, 233);
+            this.ToolsPanel.TabIndex = 5;
+            this.ToolsPanel.Visible = false;
+            // 
+            // toolboxSaveButton
+            // 
+            this.toolboxSaveButton.Location = new System.Drawing.Point(192, 205);
+            this.toolboxSaveButton.Name = "toolboxSaveButton";
+            this.toolboxSaveButton.Size = new System.Drawing.Size(75, 23);
+            this.toolboxSaveButton.TabIndex = 4;
+            this.toolboxSaveButton.Text = "Save";
+            this.toolboxSaveButton.UseVisualStyleBackColor = true;
+            this.toolboxSaveButton.Click += new System.EventHandler(this.toolboxSaveButton_Click);
+            // 
+            // SearchToolbox
+            // 
+            this.SearchToolbox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.SearchToolbox.FormattingEnabled = true;
+            this.SearchToolbox.Items.AddRange(new object[] {
+            "Google",
+            "DuckDuckGo",
+            "Yahoo",
+            "Bing!"});
+            this.SearchToolbox.Location = new System.Drawing.Point(69, 56);
+            this.SearchToolbox.Name = "SearchToolbox";
+            this.SearchToolbox.Size = new System.Drawing.Size(198, 21);
+            this.SearchToolbox.TabIndex = 3;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(16, 59);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(47, 13);
+            this.label1.TabIndex = 2;
+            this.label1.Text = "Search: ";
+            // 
+            // HomepageToolText
+            // 
+            this.HomepageToolText.Location = new System.Drawing.Point(76, 14);
+            this.HomepageToolText.Name = "HomepageToolText";
+            this.HomepageToolText.Size = new System.Drawing.Size(193, 20);
+            this.HomepageToolText.TabIndex = 1;
+            this.HomepageToolText.Text = "https://www.";
+            // 
+            // HomepageToolLabel
+            // 
+            this.HomepageToolLabel.AutoSize = true;
+            this.HomepageToolLabel.Location = new System.Drawing.Point(16, 17);
+            this.HomepageToolLabel.Name = "HomepageToolLabel";
+            this.HomepageToolLabel.Size = new System.Drawing.Size(65, 13);
+            this.HomepageToolLabel.TabIndex = 0;
+            this.HomepageToolLabel.Text = "Homepage: ";
+            // 
             // BrowserMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(326, 289);
+            this.Controls.Add(this.ToolsPanel);
             this.Controls.Add(this.BookmarksView);
             this.Controls.Add(this.toolbarBackground);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.KeyPreview = true;
             this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "BrowserMain";
             this.Text = "Browser";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.BrowserMain_FormClosing);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.BrowserMain_KeyDown);
             this.toolbarBackground.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.buttonSettings)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.buttonBookmark)).EndInit();
@@ -221,6 +299,8 @@ namespace Browser
             ((System.ComponentModel.ISupportInitialize)(this.urlBoxLeft)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.buttonForward)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.buttonBack)).EndInit();
+            this.ToolsPanel.ResumeLayout(false);
+            this.ToolsPanel.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -239,6 +319,12 @@ namespace Browser
         private System.Windows.Forms.ToolStripMenuItem openInANewTabToolStripMenuItem;
         private System.Windows.Forms.TreeView BookmarksView;
         private System.Windows.Forms.ImageList bookmarkImageList;
+        private System.Windows.Forms.Panel ToolsPanel;
+        private System.Windows.Forms.ComboBox SearchToolbox;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.TextBox HomepageToolText;
+        private System.Windows.Forms.Label HomepageToolLabel;
+        private System.Windows.Forms.Button toolboxSaveButton;
     }
 }
 

@@ -112,7 +112,12 @@ namespace Browser
         public BrowserMain(string address)
         {
             InitializeComponent();
-
+            GetSettings();
+            GetBookmarks();
+            if(this.HomepageToolText.Text != "about:blank")
+            {
+                address = this.HomepageToolText.Text;
+            }
             ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
             WebBrowser = new ChromiumWebBrowser(string.IsNullOrWhiteSpace(address) ? "about:blank" : address)
                 {
@@ -137,7 +142,7 @@ namespace Browser
         {
             Invoke(new Action(() => AddressBar.Text = e.Address));
 
-            if (e.Address != "about.blank" && !faviconLoaded)
+            if (e.Address != "about:blank" && !faviconLoaded)
             {
                 Uri uri = new Uri(e.Address);
 
@@ -444,12 +449,29 @@ namespace Browser
 
         private void AddressBar_KeyDown(object sender, KeyEventArgs e)
         {
+            GetSettings();
             if (e.KeyCode == Keys.Enter)
             {
                 string fullUrl = AddressBar.Text;
                 if (!fullUrl.Contains(".com"))
                 {
-                    fullUrl = "https://duckduckgo.com/?q=" + fullUrl;
+                    if(this.SearchToolbox.SelectedItem.ToString() == "Google")
+                    {
+                        fullUrl = "https://www.google.com/search?q=" + fullUrl;
+                    }
+                    if (this.SearchToolbox.SelectedItem.ToString() == "DuckDuckGo")
+                    {
+                        fullUrl = "https://duckduckgo.com/?q=" + fullUrl;
+                    }
+                    if (this.SearchToolbox.SelectedItem.ToString() == "Yahoo")
+                    {
+                        fullUrl = "https://search.yahoo.com/search?p=" + fullUrl;
+                    
+                    }
+                    if (this.SearchToolbox.SelectedItem.ToString() == "Bing!")
+                    {
+                        fullUrl = "https://www.bing.com/search?q=" + fullUrl;
+                    }
                 }
                 else if (!Regex.IsMatch(fullUrl, "^[a-zA-Z0-9]+\\://"))
                 {
@@ -506,7 +528,15 @@ namespace Browser
                     bookmark = JsonConvert.DeserializeObject<List<BookmarkClass>>(JSONData);
                     var b = bookmark.Find(x => x.Title == e.Node.Text);
                     var url = b.Url;
-                    CreateNewTab(url);
+                    if(this.AddressBar.Text == "about:blank")
+                    {
+                        WebBrowser.Load(url);
+                    }
+                    else
+                    {
+                        CreateNewTab(url);
+                    }
+                    
                     BookmarksView.Visible = false;
                 }
             }
@@ -547,6 +577,93 @@ namespace Browser
             {
                 BookmarksView.Visible = false;
             }
+        }
+
+        private void BrowserMain_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Control && e.KeyCode == Keys.T)
+            {
+                CreateNewTab("about:blank");
+            }
+        }
+
+        private void toolboxSaveButton_Click(object sender, EventArgs e)
+        {
+            UserSettings _data = new UserSettings
+            {
+                Homepage = this.HomepageToolText.Text,
+                Search = this.SearchToolbox.Text
+            };
+            try
+            {
+                
+                var path = Path.Combine(Application.StartupPath, "UserSettings.json");
+                List<UserSettings> usersettings = new List<UserSettings>();
+                usersettings.Add(_data);
+                var json = JsonConvert.SerializeObject(usersettings, Formatting.Indented);
+                File.WriteAllText(path, json);
+                ToolsPanel.Visible = false;
+            }
+            catch(Exception ex)
+            {
+                ThreadPool.QueueUserWorkItem(delegate { LogError(ex); });
+            }
+        }
+
+        private void buttonSettings_Click(object sender, EventArgs e)
+        {
+            if (ToolsPanel.Visible == false)
+            {
+                try
+                {
+                    GetSettings();
+                }
+                catch (Exception ex)
+                {
+                    ThreadPool.QueueUserWorkItem(delegate { LogError(ex); });
+                }
+                ToolsPanel.Visible = true;
+            }
+            else
+            {
+                ToolsPanel.Visible = false;
+            }
+        }
+
+        public void GetSettings()
+        {
+            List<UserSettings> userSettings;
+            var path = Path.Combine(Application.StartupPath, "UserSettings.json");
+            if (File.Exists(path))
+            {
+                var JSONData = File.ReadAllText(path);
+                userSettings = JsonConvert.DeserializeObject<List<UserSettings>>(JSONData);
+                this.HomepageToolText.Text = userSettings.First().Homepage;
+                this.SearchToolbox.SelectedItem = userSettings.First().Search;
+            }
+            else
+            {
+
+                CreateDefaultSettings();
+                var JSONData = File.ReadAllText(path);
+                userSettings = JsonConvert.DeserializeObject<List<UserSettings>>(JSONData);
+                this.HomepageToolText.Text = userSettings.First().Homepage;
+                this.SearchToolbox.SelectedItem = userSettings.First().Search;
+            }
+            
+        }
+        public void CreateDefaultSettings()
+        {
+            UserSettings us = new UserSettings()
+            {
+                Homepage = "about:blank",
+                Search = "Google"
+            };
+            List<UserSettings> userSettings = new List<UserSettings>();
+            userSettings.Add(us);
+            var path = Path.Combine(Application.StartupPath, "UserSettings.json");
+            var json = JsonConvert.SerializeObject(userSettings, Formatting.Indented);
+            File.WriteAllText(path, json);
         }
     }
 }
