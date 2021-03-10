@@ -13,7 +13,7 @@ namespace Browser
             Application.SetCompatibleTextRenderingDefault(false);
             AppContainer container = new AppContainer();
             container.Tabs.Add(new TitleBarTab(container) {
-                Content=new BrowserMain(null)
+                Content=new BrowserMain(null, false)
                 {
                     Text="New Tab"
                 }

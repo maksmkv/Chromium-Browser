@@ -25,7 +25,7 @@ namespace Browser
         {
             return new TitleBarTab(this)
             {
-                Content = new BrowserMain(null) { Text = "New Tab" }
+                Content = new BrowserMain(null, false) { Text = "New Tab" }
             };
         }
         

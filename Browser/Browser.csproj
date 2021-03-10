@@ -28,6 +28,8 @@
     <UpdatePeriodically>false</UpdatePeriodically>
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
+    <ProductName>Browser</ProductName>
+    <PublisherName>Levi Bickel</PublisherName>
     <ApplicationRevision>1</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
@@ -74,7 +76,7 @@
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>internet_blue.ico</ApplicationIcon>
+    <ApplicationIcon>Browser.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup>
     <ManifestCertificateThumbprint>8D812C3AE1EBB05558857E3FEFC11A30E64AC267</ManifestCertificateThumbprint>
@@ -206,7 +208,8 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="internet_blue.ico" />
+    <Content Include="Browser.ico" />
+    <None Include="Resources\DefaultIcon.ico" />
     <None Include="Resources\BookmarksActive.png" />
     <None Include="Resources\ToolsActive.png" />
     <None Include="Resources\ButtonHoverBackground.png" />

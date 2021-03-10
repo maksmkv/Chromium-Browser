@@ -109,12 +109,12 @@ namespace Browser
             }
         }
 
-        public BrowserMain(string address)
+        public BrowserMain(string address, bool newtabrequest)
         {
             InitializeComponent();
             GetSettings();
             GetBookmarks();
-            if(this.HomepageToolText.Text != "about:blank")
+            if(this.HomepageToolText.Text != "about:blank" && !newtabrequest)
             {
                 address = this.HomepageToolText.Text;
             }
@@ -203,7 +203,7 @@ namespace Browser
         
         public void CreateNewTab(string url)
         {
-           var newtab = new TitleBarTab(ParentTabs) { Content = new BrowserMain(url) { Text = "New Tab" } };
+            var newtab = new TitleBarTab(ParentTabs) { Content = new BrowserMain(url, true) { Text = "New Tab" } };
            if (ParentTabs.InvokeRequired) 
            {
                ParentTabs.Invoke(new Action(() => {
@@ -495,12 +495,18 @@ namespace Browser
 
         private void buttonBack_Click(object sender, EventArgs e)
         {
-            WebBrowser.Back();
+            if (WebBrowser.CanGoBack)
+            {
+                WebBrowser.Back();
+            }
         }
 
         private void buttonForward_Click(object sender, EventArgs e)
         {
-            WebBrowser.Forward();
+            if (WebBrowser.CanGoForward)
+            {
+                WebBrowser.Forward();
+             }
         }
 
         private void BrowserMain_FormClosing(object sender, FormClosingEventArgs e)
